@@ -1,0 +1,23 @@
+[general]
+name=Gerador de Memorial Descritivo
+qgisMinimumVersion=3.0
+qgisMaximumVersion=4.99
+description=Ferramenta para reordenar vértices e gerar atributos de memorial topográfico
+version=1.0.0
+
+author=Ezequiel M. Rezende
+email=emrezende@gmail.com
+
+about=Calcula UTM (N, E), Azimute, Distância e Área para feições poligonais.
+
+
+tracker=https://github.com/em-rezende/qgis-memorial-descritivo-plugin/issues
+repository=https://github.com/em-rezende/qgis-memorial-descritivo-plugin
+
+tags=GeoPackage, Shapefile, Vetor, Memorial, Descritivo
+
+category=Vetor
+icon=memorial_descritivo.svg
+
+experimental=False
+deprecated=False

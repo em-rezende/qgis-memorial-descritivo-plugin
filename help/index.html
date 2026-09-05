@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memorial Descritivo · Guia Completo e Recursos (QGIS 4.0)</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <!-- Cabeçalho institucional -->
+      <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem;">
+        <span class="badge badge-dark">ARK-Z ARQUITETURA LTDA</span> <span class="badge">FERRAMENTAS
+          GEOSPATIAIS &amp; CAD/GIS</span> <span class="badge" style="background-color: #007acc; color: white;">COMPATÍVEL
+          COM QGIS 4.0</span> </div>
+      <h1>Gerador de Memorial Descritivo · Guia do Usuário</h1>
+      <p style="background: transparent; border-left: none; font-style: italic; padding-left: 0;">
+        O <strong>Gerador de Memorial Descritivo</strong> é uma solução
+        profissional para o QGIS focada no processamento topográfico de
+        geometrias vetoriais, ordenação perimetral dinâmica (definição do V1 e
+        inversão de sentido com destaque no mapa), detecção avançada de curvas
+        com cálculo de elementos geométricos, métricas de área/perímetro,
+        geração automatizada de anotações no Canvas e exportação de memoriais e
+        tabelas padronizados para Registro de Imóveis. </p>
+      <!-- Galeria das Interfaces Organizadadas por Aba -->
+      <h2>📸 Interface da Ferramenta e Organização em Abas</h2>
+      <p>A ferramenta possui uma interface estruturada em duas abas principais,
+        além da janela dedicada para pré-visualização e exportação do texto
+        final:</p>
+      <div class="image-gallery">
+        <div class="image-card"> <img src="image_01.png" alt="Aba 1 - Dados, Anotações, Assinaturas">
+          <div class="image-caption"> <strong>Figura 1: Aba "Dados, Anotações,
+              Assinaturas"</strong><br>
+            Preenchimento dos metadados do imóvel/projeto (Título, Lote, Quadra,
+            Matrícula, Município), Proprietários, Bloco de Confrontantes e
+            Responsável Técnico, além do botão de ação para Pré-visualização. </div>
+        </div>
+        <div class="image-card"> <img src="image_02.png" alt="Aba 2 - Quadro Resumo e Ferramentas">
+          <div class="image-caption"> <strong>Figura 2: Aba "Quadro Resumo"</strong><br>
+            Seleção do Vértice Inicial (V1), Inversão de Sentido, Detecção de
+            Curvas, Métricas Geométricas, Tabela de Trechos/Confrontantes,
+            Anotações no Canvas e Persistência no Banco de Dados. </div>
+        </div>
+        <div class="image-card"> <img src="image_03.png" alt="Janela de Pré-visualização do Memorial Descritivo">
+          <div class="image-caption"> <strong>Figura 3: Janela
+              "Pré-visualização do Memorial Descritivo"</strong><br>
+            Visualização narrativa em tempo real com área, perímetro, azimutes,
+            distâncias, curvas, proprietários, confrontantes e botões para cópia
+            rápida e exportação. </div>
+        </div>
+        <div class="image-card"> <img src="image_04.png" alt="Resultado Gráfico e Anotações no QGIS Canvas">
+          <div class="image-caption"> <strong>Figura 4: Anotações Automáticas
+              no QGIS Canvas</strong><br>
+            Vértices numerados (V1 a V5), rótulos de Azimute/Distância
+            orientados nas divisas, identificação de Curvas (Raio) e bloco
+            informativo central no imóvel. </div>
+        </div>
+      </div>
+      <h2>🌟 Recursos e Estrutura Funcional</h2>
+      <div class="option-grid"> <span class="option-item">Navegação dinâmica do
+          Ponto V1 com feedback gráfico em tempo real (QgsRubberBand).</span> <span
+          class="option-item">Inversão de Sentido Topográfico (Horário /
+          Anti-Horário) instantânea.</span> <span class="option-item">Detecção
+          automática de arcos/curvas perimetrais com calculador de Raio, Arco,
+          Corda e Sentido de Giro.</span> <span class="option-item">Métricas
+          automáticas em M², Hectares (ha), Alqueire SP e Perímetro linear (m).</span>
+        <span class="option-item">Pesquisa e preenchimento automático de
+          vizinhos via análise espacial (Botão "Detectar Vizinhos BD").</span> <span
+          class="option-item">Geração de camadas vetoriais de anotação e rótulos
+          no QGIS Canvas (Vértices, Azimute/Distância e Confrontantes).</span> <span
+          class="option-item">Controle de Assinatura por Trecho com
+          sincronização dinâmica no bloco de rodapé.</span> <span class="option-item">Tabela
+          compacta com alinhamento profissional e destaque interativo do trecho
+          no mapa ao selecionar.</span> <span class="option-item">Exportação de
+          dados tabulares em formato estruturado CSV / XLSX.</span> <span class="option-item">Persistência
+          local em banco SQLite vinculada ao ID único da feição (feature_id).</span>
+        <span class="option-item">Ações de manutenção: Limpeza do lote ativo e
+          reinicialização completa do BD.</span> <span class="option-item">Diálogo
+          de Pré-visualização com exportação multipadrão (TXT, DOC, HTML) e
+          cópia rápida.</span> </div>
+      <h2>📑 Detalhamento da Estrutura das Abas</h2>
+      <h3>1. Aba "Dados, Anotações, Assinaturas"</h3>
+      <p>A primeira aba concentra todas as informações jurídicas, cadastrais e
+        administrativas necessárias para qualificação formal do documento
+        perante os Cartórios de Registro de Imóveis:</p>
+      <ul>
+        <li><strong>Dados do Imóvel / Projeto:</strong>
+          <ul>
+            <li><strong>Título do Projeto:</strong> Nome técnico da intervenção
+              (ex: <em>Projeto de Retificação de Área</em>).</li>
+            <li><strong>Descrição Lote/Quadra:</strong> Endereçamento cadastral
+              completo (ex: <em>Lote 01 da Quadra 01 do Bairro Centro</em>).</li>
+            <li><strong>Matrícula:</strong> Número do registro imobiliário (ex:
+              <em>00.001</em>).</li>
+            <li><strong>Município e UF:</strong> Jurisdição política da
+              propriedade (ex: <em>Belo Horizonte / MG</em>).</li>
+          </ul>
+        </li>
+        <li><strong>Assinaturas e Detalhes de Confrontantes Gerais:</strong>
+          <ul>
+            <li><strong>Proprietário(s):</strong> Razão social ou nome civil com
+              documento oficial (CPF/CNPJ).</li>
+            <li><strong>Bloco de Confrontantes:</strong> Lista dos confrontantes
+              consolidados para o bloco final de assinaturas e anuências da
+              planta/memorial.</li>
+            <li><strong>Responsável Técnico:</strong> Profissional habilitado e
+              número do conselho de classe (CREA / CAU / CFT).</li>
+          </ul>
+        </li>
+        <li><strong>Ação de Pré-visualização:</strong> Botão principal <code>👁️
+            Pré-visualizar / Exportar Memorial</code> para geração imediata do
+          texto narrativo.</li>
+      </ul>
+      <h3>2. Aba "Quadro Resumo"</h3>
+      <p>A segunda aba reúne os controles topográficos de geometria, o quadro
+        tabular de trechos, ferramentas de anotação gráfica e controle de banco
+        de dados:</p>
+      <ul>
+        <li><strong>Seleção do Vértice Inicial (V1), Sentido Topográfico e
+            Curvatura:</strong>
+          <ul>
+            <li><strong>Navegação V1:</strong> Permite alternar sequencialmente
+              o ponto de amarração inicial sem modificar o vetor original.</li>
+            <li><strong>Inverter Sentido:</strong> Troca instantânea do fluxo de
+              navegação entre HORÁRIO e ANTI-HORÁRIO.</li>
+            <li><strong>Detectar Curvas e Tol. Deflexão (°):</strong>
+              Identificação automática de concordâncias circulares e cálculo de
+              raio/arco/corda com tolerância ajustável.</li>
+          </ul>
+        </li>
+        <li><strong>Métricas Geométricas do Imóvel:</strong> Exibição dinâmica
+          da Área em m², Hectares (ha), Alqueire (SP) e Perímetro Total em
+          metros.</li>
+        <li><strong>Quadro Resumo / Confrontantes por Trecho:</strong>
+          <ul>
+            <li>Tabela completa com Vértice, Coordenadas (Norte/Este - SIRGAS
+              2000 UTM 23S), De/Para, Azimute/Tipo, Distância (m), Checkbox de
+              Assinatura e Campo Edital de Confrontante por trecho.</li>
+            <li>Botão <code>🔍 Detectar Vizinhos</code>: Análise espacial
+              contra a base cadastral para auto-preenchimento dos confrontantes.</li>
+            <li>Botão <code>📊 Exportar Tabela</code>: Exportação da planilha
+              estruturada.</li>
+          </ul>
+        </li>
+        <li><strong>Ferramentas de Anotação no Mapa (QGIS Canvas):</strong>
+          <ul>
+            <li><code>Acrescentar no Desenho</code>: Gera o grupo de camadas de
+              anotação gráfica (Vértices, Rótulos, Cotas e Bloco do Imóvel).</li>
+            <li><code>Atualizar</code>: Atualiza as anotações no mapa mantendo a
+              sincronia com as alterações da tabela.</li>
+            <li><code>Remover do Desenho</code>: Limpa os elementos de anotação
+              do projeto QGIS.</li>
+          </ul>
+        </li>
+        <li><strong>Gerenciamento de Banco de Dados:</strong>
+          <ul>
+            <li><code>💾 Salvar Dados no BD</code>: Armazena as configurações
+              locais no SQLite por <code>feature_id</code>.</li>
+            <li><code>🗑️ Limpar Lote Atual</code>: Remove as informações salvas
+              apenas do lote ativo.</li>
+            <li><code>⚠️ Apagar Todo o Banco de Dados</code>: Exclui
+              permanentemente todos os registros do banco SQLite.</li>
+          </ul>
+        </li>
+      </ul>
+      <h2>📋 Modelo de Tabela Exportada (Quadro Resumo)</h2>
+      <p>Exemplo da tabela tabular processada na Aba Quadro Resumo:</p>
+      <table>
+        <thead>
+          <tr>
+            <th style="text-align: center;">VÉRTICE</th>
+            <th style="text-align: center;">COORDENADA NORTE</th>
+            <th style="text-align: center;">COORDENADA ESTE</th>
+            <th style="text-align: center;">DE</th>
+            <th style="text-align: center;">PARA</th>
+            <th style="text-align: center;">AZIMUTE / TIPO</th>
+            <th style="text-align: center;">DISTÂNCIA (m)</th>
+            <th style="text-align: center;">ASSINATURA</th>
+            <th>CONFRONTANTE</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="text-align: center;"><strong>V1</strong></td>
+            <td style="text-align: center;">7.797.190,53</td>
+            <td style="text-align: center;">611.126,12</td>
+            <td style="text-align: center;">V1</td>
+            <td style="text-align: center;">V2</td>
+            <td style="text-align: center;">149°39'57.87"</td>
+            <td style="text-align: center;">24,50</td>
+            <td style="text-align: center;">[X]</td>
+            <td>LOTE 02 - QUADRA 01</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>V2</strong></td>
+            <td style="text-align: center;">7.797.169,39</td>
+            <td style="text-align: center;">611.138,49</td>
+            <td style="text-align: center;">V2</td>
+            <td style="text-align: center;">V3</td>
+            <td style="text-align: center;">239°39'52.48"</td>
+            <td style="text-align: center;">21,00</td>
+            <td style="text-align: center;">[ ]</td>
+            <td>AV. AMAZONAS</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>V3</strong></td>
+            <td style="text-align: center;">7.797.158,78</td>
+            <td style="text-align: center;">611.120,36</td>
+            <td style="text-align: center;">V3</td>
+            <td style="text-align: center;">V4</td>
+            <td style="text-align: center;">CURVA - R=7,65m</td>
+            <td style="text-align: center;">17,17</td>
+            <td style="text-align: center;">[ ]</td>
+            <td>PRAÇA SETE</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>V4</strong></td>
+            <td style="text-align: center;">7.797.166,93</td>
+            <td style="text-align: center;">611.109,61</td>
+            <td style="text-align: center;">V4</td>
+            <td style="text-align: center;">V5</td>
+            <td style="text-align: center;">14°39'48.94"</td>
+            <td style="text-align: center;">22,83</td>
+            <td style="text-align: center;">[ ]</td>
+            <td>RUA RIO DE JANEIRO</td>
+          </tr>
+          <tr>
+            <td style="text-align: center;"><strong>V5</strong></td>
+            <td style="text-align: center;">7.797.189,01</td>
+            <td style="text-align: center;">611.115,39</td>
+            <td style="text-align: center;">V5</td>
+            <td style="text-align: center;">V1</td>
+            <td style="text-align: center;">CURVA - R=6,08m</td>
+            <td style="text-align: center;">13,95</td>
+            <td style="text-align: center;">[X]</td>
+            <td>LOTE 03 - QUADRA 01</td>
+          </tr>
+        </tbody>
+      </table>
+      <h2>📝 Modelo de Memorial Descritivo Gerado</h2>
+      <p>Exemplo de saída narrativa formatada para cópia ou exportação:</p>
+      <div class="math-box" style="white-space: pre-wrap; font-family: monospace; background: #1e293b; color: #f8fafc; padding: 1.2rem; border-radius: 12px; font-size: 0.88rem; line-height: 1.4;">
+MEMORIAL DESCRITIVO
+
+Projeto de Retificação de Área
+Lote 01 - Quadra 01 - Bairro Centro
+Matrícula: 00.001
+Município: Belo Horizonte/MG
+Área: 637,87 m² (0,0638 ha)
+Perímetro: 99,45 m
+
+DESCRIÇÃO PERIMÉTRICA:
+Inicia-se a descrição deste perímetro no vértice V1, de coordenadas N:7.797.190,53m e E:611.126,12m; deste, segue confrontando com LOTE 02 - QUADRA 01, com azimute 149°39'57.87" e distância de 24,50m, até o vértice V2, de coordenadas N:7.797.169,39m e E:611.138,49m; deste, segue confrontando com AV. AMAZONAS, com azimute 239°39'52.48" e distância de 21,00m, até o vértice V3, de coordenadas N:7.797.158,78m e E:611.120,36m; deste, segue confrontando com PRAÇA SETE, em curva DIREITA com raio de 7,65m, desenvolvimento de arco de 17,17m e corda de 13,49m (azimute da corda CURVA - R=7.65m), até o vértice V4, de coordenadas N:7.797.166,93m e E:611.109,61m; deste, segue confrontando com RUA RIO DE JANEIRO, com azimute 14°39'48.94" e distância de 22,83m, até o vértice V5, de coordenadas N:7.797.189,01m e E:611.115,39m; deste, segue confrontando com LOTE 03 - QUADRA 01, em curva DIREITA com raio de 6,08m, desenvolvimento de arco de 13,95m e corda de 10,83m (azimute da corda CURVA - R=6.08m), até o vértice V1, ponto inicial da descrição deste perímetro. Todas as coordenadas aqui descritas estão georreferenciadas ao Sistema Geodésico Brasileiro, e encontram-se representadas no Sistema UTM, referenciadas ao Meridiano Central nº 45W, fuso23S, tendo como datum o SIRGAS 2000. Todos os azimutes, distâncias e área foram calculados no plano de projeção UTM.
+
+PROPRIETÁRIO(S):
+
+__________________________________________________
+Nome do Proprietário / CNPJ 00.000.000/001-00
+
+CONFRONTANTES:
+
+__________________________________________________
+LOTE 02 - QUADRA 01
+
+__________________________________________________
+LOTE 03 - QUADRA 01
+
+RESPONSÁVEL TÉCNICO:
+
+__________________________________________________
+Nome do Responsável Técnico / CAU-BR / CREA / CFT
+      </div>
+      <!-- Rodapé Institucional -->
+      <h2>📄 Licença<br>
+      </h2>
+      <div class="footer-tip">
+        <p style="background: transparent; border-left: none; color: #e1f0fa; padding: 0;">Este
+          projeto está licenciado sob a Licença **MIT** - consulte o texto
+          abaixo para obter detalhes:<br>
+          <br>
+          MIT License<br>
+          <br>
+          Copyright (c) 2026<br>
+          <br>
+          Permission is hereby granted, free of charge, to any person obtaining
+          a copy<br>
+          of this software and associated documentation files (the "Software"),
+          to deal<br>
+          in the Software without restriction, including without limitation the
+          rights<br>
+          to use, copy, modify, merge, publish, distribute, sublicense, and/or
+          sell<br>
+          copies of the Software, and to permit persons to whom the Software is<br>
+          furnished to do so, subject to the following conditions:<br>
+          <br>
+          The above copyright notice and this permission notice shall be
+          included in all<br>
+          copies or substantial portions of the Software.<br>
+          <br>
+          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+          EXPRESS OR<br>
+          IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+          MERCHANTABILITY,<br>
+          FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT
+          SHALL THE<br>
+          AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER<br>
+          LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+          ARISING FROM,<br>
+          OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+          IN THE<br>
+          SOFTWARE.</p>
+      </div>
+      <hr>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; color: #5a7368; font-size: 0.9rem;">
+        <span>© 2026 ARK-Z ARQUITETURA LTDA — Módulo Memorial Descritivo</span>
+        <span>Versão 1.0.0 | Compatível com QGIS 4.0</span> </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Creator: CorelDRAW (Versão OEM) -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="256px" height="256px" version="1.0" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 256 256"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:xodm="http://www.corel.com/coreldraw/odm/2003">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .str0 {stroke:#96989A;stroke-width:18;stroke-linecap:round;stroke-miterlimit:22.9256}
+    .fil0 {fill:none}
+    .fil1 {fill:white}
+    .fil2 {fill:#336292;fill-rule:nonzero}
+   ]]>
+  </style>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <rect class="fil0" x="112" y="112" width="32" height="32"/>
+  <circle class="fil1 str0" cx="128" cy="128" r="119"/>
+  <path class="fil2" d="M95 105c9,0 13,-8 13,-15 0,-11 9,-20 20,-20 11,0 20,8 20,19 0,5 -2,11 -6,16 -10,12 -27,26 -27,43l0 13c0,7 6,13 13,13 7,0 13,-6 13,-13l0 -13c0,-5 17,-21 21,-25 8,-9 13,-21 13,-33 0,-26 -21,-46 -46,-46 -26,0 -46,21 -46,46 0,10 6,15 13,15zm34 77c-9,0 -16,7 -16,16 0,9 7,16 16,16 8,0 16,-7 16,-16 0,-9 -7,-16 -16,-16z"/>
+ </g>
+</svg>

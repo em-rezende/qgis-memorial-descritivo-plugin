@@ -1,0 +1,403 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    background: #f4f7fb;
+    color: #1a2639;
+    line-height: 1.5;
+    padding: 2rem 1rem;
+}
+
+.container {
+    max-width: 1300px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 32px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    padding: 2.5rem 2.8rem;
+}
+
+h1 {
+    font-size: 2.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #0b2b4f, #1e4a76);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 1rem 0 0.3rem 0;
+    border-left: 6px solid #2b7fc1;
+    padding-left: 1.2rem;
+}
+
+h1:first-of-type {
+    margin-top: 0;
+}
+
+.sub-header {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #4a5b6e;
+    margin-bottom: 2rem;
+    background: #eef2f6;
+    padding: 0.75rem 1.5rem;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1.2rem 0;
+    padding-bottom: 0.4rem;
+    border-bottom: 3px solid #d0e1f0;
+    color: #0f3b5e;
+}
+
+h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: #1e4a76;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+h3::before {
+    content: "⚙️";
+    font-size: 1.4rem;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+}
+
+p {
+    background: #f8fafd;
+    padding: 0.8rem 1.2rem;
+    border-radius: 15px;
+    margin: 0.75rem 0;
+    border-left: 4px solid #7aa9cf;
+    font-weight: 400;
+    color: #2c4059;
+}
+
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 0.5rem 1rem;
+    background: #f1f6fc;
+    padding: 1.2rem 1.5rem;
+    border-radius: 15px;
+    margin: 1rem 0 1.2rem 0;
+    border: 1px solid #cbdbe9;
+}
+
+.purge-section {
+    background: #f9fcff;
+    border-radius: 20px;
+    padding: 1.2rem 1.8rem;
+    margin: 1.8rem 0;
+    border: 1px solid #c9dcee;
+    box-shadow: 0 4px 10px rgba(0, 30, 60, 0.04);
+}
+
+.purge-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #0f3b5e;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 2px dashed #b0cde0;
+    padding-bottom: 0.5rem;
+}
+
+.purge-title::before {
+    content: "🧹";
+    font-size: 1.6rem;
+}
+
+.warning-box {
+    background: #fff4e5;
+    border-left: 6px solid #e67e22;
+    padding: 1rem 1.8rem;
+    border-radius: 15px;
+    margin: 1.2rem 0;
+    font-weight: 500;
+    color: #a15800;
+}
+
+.danger-box {
+    background: #ffeaea;
+    border-left: 6px solid #c0392b;
+    padding: 1rem 1.8rem;
+    border-radius: 15px;
+    margin: 1.2rem 0;
+    font-weight: 500;
+    color: #a8231a;
+}
+
+.badge {
+    background: white;
+    color: #0a2f4d;
+    padding: 0.2rem 1rem;
+    border-radius: 40px;
+    font-weight: 500;
+    font-size: 0.8rem;
+    border: 1px solid #9ab5d1;
+    display: inline-block;
+    margin-right: 0.4rem;
+    margin-bottom: 0.2rem;
+}
+
+.badge-dark {
+    background: #1e4a76;
+    color: white;
+    border: none;
+}
+
+.badge-warning {
+    background: #e67e22;
+    color: white;
+    border: none;
+}
+
+.badge-danger {
+    background: #c0392b;
+    color: white;
+    border: none;
+}
+
+.button-hint {
+    display: inline-flex;
+    align-items: center;
+    background: #1e4a76;
+    color: white;
+    padding: 0.35rem 1.4rem;
+    border-radius: 40px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin: 0.2rem 0;
+    border: none;
+    box-shadow: 0 6px 14px rgba(26, 80, 128, 0.3);
+}
+
+hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(90deg, #b3cde0, transparent);
+    margin: 2rem 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 12px 28px -8px rgba(18, 45, 74, 0.2);
+    border: 3px solid white;
+    margin: 1.5rem auto;
+    display: block;
+}
+
+.footer-tip {
+    background: #0f2b41;
+    color: #e1f0fa;
+    padding: 1.5rem 2rem;
+    border-radius: 15px;
+    margin-top: 2.5rem;
+}
+
+.footer-tip h3 {
+    color: #9ac7ff;
+    margin-top: 0;
+}
+
+.footer-tip h3::before {
+    content: "💡";
+}
+
+.action-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    justify-content: center;
+}
+
+.action-button {
+    background: #ecf3fa;
+    border: 2px solid #1e4a76;
+    color: #1e4a76;
+    padding: 0.6rem 2rem;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: default;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.option-item {
+    font-size: 0.95rem;
+    padding: 0.2rem 0 0.2rem 1.2rem;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="%231e4a76" stroke-width="3"><polyline points="9 18 15 12 9 6"/></svg>') left center no-repeat;
+    background-size: 1rem;
+    color: #1f3a57;
+}
+
+.lead-text {
+    background: #f8fafc;
+    padding: 1rem 1.5rem;
+    border-radius: 15px;
+    margin: 1rem 0 2rem 0;
+    border-left: 4px solid #3b82f6;
+    font-size: 1.05rem;
+    color: #334155;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.image-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.image-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    margin-bottom: 0.5rem;
+}
+
+.image-caption {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.feature-item {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 1rem;
+    border-radius: 15px;
+    font-size: 0.92rem;
+    color: #1e40af;
+    font-weight: 500;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.92rem;
+}
+
+th {
+    background-color: #0f172a;
+    color: white;
+    text-align: left;
+    padding: 10px 14px;
+    font-weight: 600;
+}
+
+td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #e2e8f0;
+    color: #334155;
+}
+
+tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.note-box {
+    background: #fef08a;
+    border-radius: 15px;
+    padding: 1.2rem 1.5rem;
+    margin: 1.8rem 0;
+    border-left: 6px solid #eab308;
+    font-size: 0.95rem;
+    color: #713f12;
+}
+
+.image-showcase {
+    text-align: center;
+    margin: 1.5rem 0 2rem 0;
+}
+
+.image-showcase img {
+    margin-bottom: 0.5rem;
+}
+
+.image-showcase span {
+    font-size: 0.85rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.step-list {
+    list-style: none;
+    margin: 1rem 0;
+    padding: 0;
+}
+
+.step-list li {
+    position: relative;
+    padding: 0.8rem 1rem 0.8rem 3rem;
+    margin-bottom: 0.6rem;
+    background: #f8fafd;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    color: #2c4059;
+}
+
+.step-list li::before {
+    content: attr(data-step);
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #1e4a76;
+    color: white;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.math-box {
+    font-family: 'Consolas', 'Courier New', monospace;
+    background: #0f172a;
+    color: #38bdf8;
+    padding: 0.8rem 1.2rem;
+    border-radius: 10px;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    overflow-x: auto;
+}
