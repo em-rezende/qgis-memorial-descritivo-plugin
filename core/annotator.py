@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 from qgis.core import (
     QgsVectorLayer, QgsFeature, QgsGeometry, QgsPointXY, QgsField,
-    QgsProject, QgsLayerTreeGroup, QgsPalLayerSettings,
-    QgsVectorLayerSimpleLabeling, QgsTextFormat, QgsTextBufferSettings,
-    QgsExpression, QgsLayerTreeLayer
+    QgsProject, QgsPalLayerSettings, QgsVectorLayerSimpleLabeling,
+    QgsTextFormat, QgsTextBufferSettings, QgsLayerTreeLayer
 )
 from qgis.PyQt.QtCore import QVariant
 from qgis.PyQt.QtGui import QColor, QFont
@@ -16,8 +15,108 @@ class MapAnnotator:
         self.crs_auth_id = crs_auth_id
         self.group_name = "Anotações do Memorial"
 
+    def remover_anotacoes(self, id_imovel=None):
+        """Remove todas as anotações do imóvel especificado."""
+        project = QgsProject.instance()
+        root = project.layerTreeRoot()
+
+        id_str = str(id_imovel).strip() if id_imovel is not None else ""
+
+        # Procura TODOS os grupos com o nome "Anotações do Memorial"
+        grupos_para_remover = []
+        self._encontrar_grupos_por_nome(root, self.group_name, grupos_para_remover)
+
+        if not grupos_para_remover:
+            return
+
+        layers_to_remove = []
+
+        for grupo in grupos_para_remover:
+            if id_str:
+                # Procura o subgrupo específico dentro deste grupo
+                subgrupo = grupo.findGroup(id_str)
+                if subgrupo:
+                    # Coleta todas as camadas do subgrupo
+                    self._coletar_todas_camadas(subgrupo, layers_to_remove)
+                    # Remove o subgrupo
+                    grupo.removeChildNode(subgrupo)
+            else:
+                # Remove todo o grupo
+                self._coletar_todas_camadas(grupo, layers_to_remove)
+                root.removeChildNode(grupo)
+
+        # Remove as camadas do projeto
+        if layers_to_remove:
+            project.removeMapLayers(layers_to_remove)
+
+        # Limpa grupos vazios
+        self._limpar_grupos_vazios(root)
+
+    def _encontrar_grupos_por_nome(self, node, nome, lista_grupos):
+        """Encontra recursivamente todos os grupos com um determinado nome."""
+        for child in node.children():
+            if isinstance(child, QgsLayerTreeLayer):
+                continue
+            elif child.name() == nome:
+                lista_grupos.append(child)
+            else:
+                self._encontrar_grupos_por_nome(child, nome, lista_grupos)
+
+    def _coletar_todas_camadas(self, node, layer_ids):
+        """Coleta recursivamente todos os IDs das camadas em um nó."""
+        for child in node.children():
+            if isinstance(child, QgsLayerTreeLayer):
+                layer_id = child.layerId()
+                if layer_id:
+                    layer_ids.append(layer_id)
+            else:
+                self._coletar_todas_camadas(child, layer_ids)
+
+    def _limpar_grupos_vazios(self, node):
+        """Remove recursivamente todos os grupos vazios."""
+        filhos_para_remover = []
+        for child in node.children():
+            if not isinstance(child, QgsLayerTreeLayer):
+                self._limpar_grupos_vazios(child)
+                if len(child.children()) == 0:
+                    filhos_para_remover.append(child)
+
+        for child in filhos_para_remover:
+            node.removeChildNode(child)
+
+    def _limpar_grupo(self, group):
+        """Remove todas as camadas de um grupo sem remover o grupo."""
+        if not group:
+            return
+
+        project = QgsProject.instance()
+        layers_to_remove = []
+
+        # Coleta todas as camadas do grupo
+        self._coletar_todas_camadas(group, layers_to_remove)
+
+        # Remove as camadas do projeto
+        if layers_to_remove:
+            project.removeMapLayers(layers_to_remove)
+
     def _get_or_create_group(self, id_imovel=""):
+        """Obtém ou cria o grupo/subgrupo para o imóvel."""
         root = QgsProject.instance().layerTreeRoot()
+
+        # Primeiro, limpa grupos duplicados
+        grupos_existentes = []
+        self._encontrar_grupos_por_nome(root, self.group_name, grupos_existentes)
+
+        # Remove grupos duplicados (mantém apenas o primeiro)
+        for i in range(1, len(grupos_existentes)):
+            grupo = grupos_existentes[i]
+            layers_to_remove = []
+            self._coletar_todas_camadas(grupo, layers_to_remove)
+            if layers_to_remove:
+                QgsProject.instance().removeMapLayers(layers_to_remove)
+            root.removeChildNode(grupo)
+
+        # Agora procura ou cria o grupo principal
         group_principal = root.findGroup(self.group_name)
         if not group_principal:
             group_principal = root.addGroup(self.group_name)
@@ -26,37 +125,37 @@ class MapAnnotator:
         if not id_str:
             return group_principal
 
+        # Procura ou cria o subgrupo
         subgrupo = group_principal.findGroup(id_str)
         if not subgrupo:
             subgrupo = group_principal.addGroup(id_str)
 
         return subgrupo
 
-    def remover_anotacoes(self, id_imovel=None):
-        root = QgsProject.instance().layerTreeRoot()
-        group = root.findGroup(self.group_name)
-        if not group:
-            return
+    def _adicionar_ao_projeto(self, layer, id_imovel=""):
+        """Adiciona uma camada ao projeto dentro do grupo/subgrupo correto."""
+        project = QgsProject.instance()
 
-        id_str = str(id_imovel).strip() if id_imovel is not None else ""
+        # Obtém o grupo alvo (isso já limpa duplicatas)
+        group_alvo = self._get_or_create_group(id_imovel=id_imovel)
 
-        if id_str:
-            subgrupo = group.findGroup(id_str)
-            if subgrupo:
-                for child in subgrupo.children():
-                    if isinstance(child, QgsLayerTreeLayer):
-                        QgsProject.instance().removeMapLayer(child.layerId())
-                group.removeChildNode(subgrupo)
-        else:
-            for child in group.findLayers():
-                QgsProject.instance().removeMapLayer(child.layerId())
-            root.removeChildNode(group)
+        # Remove a camada existente com o mesmo nome no grupo
+        for child in group_alvo.children():
+            if isinstance(child, QgsLayerTreeLayer):
+                existing_layer = child.layer()
+                if existing_layer and existing_layer.name() == layer.name():
+                    project.removeMapLayer(existing_layer.id())
+                    break
 
-        group = root.findGroup(self.group_name)
-        if group and len(group.children()) == 0:
-            root.removeChildNode(group)
+        # Adiciona a camada ao projeto (sem adicionar na raiz)
+        project.addMapLayer(layer, False)
+
+        # Adiciona a camada ao grupo
+        group_alvo.addLayer(layer)
+        layer.triggerRepaint()
 
     def criar_camada_pontos(self, vertices, id_imovel=""):
+        """Cria a camada de vértices."""
         layer = QgsVectorLayer(f"Point?crs={self.crs_auth_id}", "Vértices", "memory")
         pr = layer.dataProvider()
         pr.addAttributes([QgsField("nome", QVariant.String)])
@@ -77,6 +176,7 @@ class MapAnnotator:
         return layer
 
     def criar_camada_segmentos(self, segmentos, id_imovel=""):
+        """Cria a camada de segmentos com azimutes e distâncias."""
         layer = QgsVectorLayer(f"LineString?crs={self.crs_auth_id}", "Azimute e Distância", "memory")
         pr = layer.dataProvider()
         pr.addAttributes([QgsField("texto_completo", QVariant.String)])
@@ -110,17 +210,20 @@ class MapAnnotator:
         return layer
 
     def criar_camada_centro(self, dados, geometria, id_imovel=""):
-        """Cria camada com informações centrais do imóvel."""
+        """Cria a camada de dados centrais do imóvel."""
         layer = QgsVectorLayer(f"Point?crs={self.crs_auth_id}", "Dados", "memory")
         pr = layer.dataProvider()
         pr.addAttributes([QgsField("info", QVariant.String)])
         layer.updateFields()
 
         pts = [QgsPointXY(seg.p1_e, seg.p1_n) for seg in dados['segmentos']]
-        geom_poly = QgsGeometry.fromPolygonXY([pts])
-        pt_centro = geom_poly.centroid().asPoint()
+        if len(pts) < 3:
+            # Se não houver pontos suficientes, usa o primeiro ponto
+            pt_centro = pts[0] if pts else QgsPointXY(0, 0)
+        else:
+            geom_poly = QgsGeometry.fromPolygonXY([pts])
+            pt_centro = geom_poly.centroid().asPoint()
 
-        # Montagem dinâmica com Lote, Quadra e Bairro concatenados
         loc_str = dados.get('lote_quadra', '')
 
         info = (
@@ -144,6 +247,7 @@ class MapAnnotator:
         return layer
 
     def _aplicar_rotulo_ponto(self, layer, campo, size=8, color=QColor("black"), bold=False):
+        """Aplica rótulos para camadas de ponto."""
         settings = QgsPalLayerSettings()
         settings.fieldName = campo
         settings.enabled = True
@@ -177,9 +281,9 @@ class MapAnnotator:
         settings.setFormat(fmt)
         layer.setLabeling(QgsVectorLayerSimpleLabeling(settings))
         layer.setLabelsEnabled(True)
-        layer.triggerRepaint()
 
     def _aplicar_rotulo_linha_multilinha(self, layer, campo, size=8, color=QColor("blue")):
+        """Aplica rótulos multilinha para camadas de linha."""
         settings = QgsPalLayerSettings()
         settings.isExpression = True
         settings.fieldName = f"replace(\"{campo}\", '\\n', '\n\n')"
@@ -236,9 +340,9 @@ class MapAnnotator:
         settings.setFormat(fmt)
         layer.setLabeling(QgsVectorLayerSimpleLabeling(settings))
         layer.setLabelsEnabled(True)
-        layer.triggerRepaint()
-        
+
     def _aplicar_rotulo_centro(self, layer, campo, size=9, color=QColor("black")):
+        """Aplica rótulos para camada de centro."""
         settings = QgsPalLayerSettings()
         settings.fieldName = campo
         settings.enabled = True
@@ -279,11 +383,4 @@ class MapAnnotator:
         settings.setFormat(fmt)
         layer.setLabeling(QgsVectorLayerSimpleLabeling(settings))
         layer.setLabelsEnabled(True)
-        layer.triggerRepaint()
-
-    def _adicionar_ao_projeto(self, layer, id_imovel=""):
-        QgsProject.instance().addMapLayer(layer, False)
-        group = self._get_or_create_group(id_imovel=id_imovel)
-        group.addLayer(layer)
-        layer.triggerRepaint()
         
