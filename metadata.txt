@@ -16,7 +16,7 @@ repository=https://github.com/em-rezende/qgis-memorial-descritivo-plugin
 
 tags=GeoPackage, Shapefile, Vetor, Memorial, Descritivo
 
-homepage=https://github.com/em-rezende/
+homepage=https://em-rezende.github.io/
 category=Vetor
 icon=memorial_descritivo.svg
 
